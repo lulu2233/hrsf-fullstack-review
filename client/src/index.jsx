@@ -13,31 +13,34 @@ class App extends React.Component {
 
   }
 
-  search (term) {
+  search(term) {
     console.log(`${term} was searched`);
     console.log(typeof term);
     $.ajax({
       url: '/repos',
       type: "POST",
-      data: {'username': term},
-      success: ()=>{
-        console.log('success');
-        $.ajax({
-          url:'/repos',
-          type: "GET",
-          data:
-
-        })
+      data: { 'username': term },
+      success: () => {
+        console.log('success post');
+        this.fecth();
       },
+
     });
   }
 
 
-  render () {
+  fecth() {
+    $.get('/repos', (data) => {
+      console.log(data);
+    })
+  }
+
+
+  render() {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos} />
+      <Search onSearch={this.search.bind(this)} />
     </div>)
   }
 }
