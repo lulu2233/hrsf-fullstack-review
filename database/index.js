@@ -41,7 +41,7 @@ let save = (repo) => {
 
 let getTop25 =()=> {
   console.log('get top 25 from database');
-  let someresult = Repo.find().sort(" -forks_count: -1 ").limit(25);
+  let someresult = Repo.find().sort(" -forks_count: 1 ").limit(25);
 
   return someresult;
 }

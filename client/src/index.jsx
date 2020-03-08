@@ -10,7 +10,19 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
+  }
 
+  fecth() {
+    $.get('/repos', (data) => {
+      this.setState({
+        repos: data
+      })
+      console.log('success get');
+    })
+  }
+
+  componentDidMount() {
+    this.fecth();
   }
 
   search(term) {
@@ -29,11 +41,7 @@ class App extends React.Component {
   }
 
 
-  fecth() {
-    $.get('/repos', (data) => {
-      console.log(data);
-    })
-  }
+
 
 
   render() {
