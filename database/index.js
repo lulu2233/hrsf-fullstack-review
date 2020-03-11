@@ -23,27 +23,39 @@ let save = (repo) => {
     html_url: repo.html_url,
     forks_count: repo.forks_count
   };
-  //console.log(oneRepo);
+  console.log(oneRepo);
   // let result = null;
-  // Repo.findOne({ id: repo.id }, (err, data) => {
-  //   if (!err) {
-  //     result = data;
-  //     console.log('The repo has already exists ' + data.html_url);
-  //   }
-  // });
+  Repo.findOne({ id: repo.id }, (err, adventure) => {
+    console.log('err is: ' + err);
+    if (!adventure) {
+      const newRepo = new Repo(oneRepo);
+      newRepo.save();
+      console.log('success!!!!!!');
+    }
+
+    else {
+      console.log('data: ' + adventure);
+      console.log('The repo has already exists ' + adventure.html_url);
+    }
+  });
   // console.log(result);
   // if (result === null) {
-  const newRepo = new Repo(oneRepo);
-  newRepo.save();
+
   //   console.log('Saved successfully');
   // }
 }
 
-let getTop25 =()=> {
+let getTop25 =(callback)=> {
   console.log('get top 25 from database');
-  let someresult = Repo.find().sort(" -forks_count: 1 ").limit(25);
-
-  return someresult;
+  Repo.find({},{'sort': ['froks_count', 'dec']}, {
+    "limit": 20,
+  },(err, adventure) => {
+    if (err) {
+      console.log('some err in get top 25')
+    }
+    console.log('top 25 repos: ' + adventure);
+    callback(adventure);
+  })
 }
 
 module.exports.save = save;
